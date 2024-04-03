@@ -11,50 +11,50 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import com.example.projectreview.model.User;
-import com.example.projectreview.service.UserService;
+import com.example.projectreview.model.Donor;
+import com.example.projectreview.service.DonorService;
 
 @RestController
-public class UserController {
+public class DonorController {
     @Autowired
-    UserService us;
+    DonorService ds;
 
-    @PostMapping("/postdetails")
-    public ResponseEntity<User> add(@RequestBody User u)
+    @PostMapping("/postdonordetails")
+    public ResponseEntity<Donor> add(@RequestBody Donor d)
     {
-        User newuser = us.create(u);
+        Donor newuser = ds.create(d);
         return new ResponseEntity<>(newuser,HttpStatus.CREATED);
     }
     
-    @GetMapping("/getdetails")
-    public ResponseEntity <List<User>> show()
+    @GetMapping("/getdonordetails")
+    public ResponseEntity <List<Donor>> show()
     {
-        List<User>obj = us.getAlldetails();
+        List<Donor>obj = ds.getAlldetails();
         return new ResponseEntity<>(obj,HttpStatus.OK);
     }
+    @GetMapping("/api/donor/{offset}/{pagesize}/{field}")
+    public List<Donor> getsorting(@PathVariable int offset,@PathVariable int pagesize,@PathVariable String field)
+    {
+        return ds.getsort(offset,pagesize,field);
+    }
 
-    @PutMapping("/api/user/{userId}")
-    public ResponseEntity<User> putMethodName(@PathVariable("userId") int id, @RequestBody User employee) {
-        if(us.updateDetails(id,employee) == true)
+    @PutMapping("/api/donor/{donorId}")
+    public ResponseEntity<Donor> putMethodName(@PathVariable("donorId") int id, @RequestBody Donor employee) {
+        if(ds.updateDetails(id,employee) == true)
         {
             return new ResponseEntity<>(employee,HttpStatus.OK);
         }
         
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/api/user/{offset}/{pagesize}/{field}")
-    public List<User> getsorting(@PathVariable int offset,@PathVariable int pagesize,@PathVariable String field)
+
+    @DeleteMapping("/api/donor/{donorId}")
+    public ResponseEntity<Boolean> delete(@PathVariable("donorId") int id)
     {
-        return us.getsort(offset,pagesize,field);
-    }
-    @DeleteMapping("/api/user/{userId}")
-    public ResponseEntity<Boolean> delete(@PathVariable("userId") int id)
-    {
-        if(us.deleteUser(id) == true)
+        if(ds.deleteDonor(id) == true)
         {
             return new ResponseEntity<>(true,HttpStatus.OK);
         }
         return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
     }
-
 }
