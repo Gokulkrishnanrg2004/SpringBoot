@@ -59,6 +59,10 @@ public class DonorService {
     {          
         return dr.findAll(PageRequest.of(pageNumber, pageSize).withSort(Sort.by(Sort.Direction.ASC,field))).getContent();
     }
+    public List<Donor> getPetByBreed(String petBreed)
+    {
+        return dr.findByPetBreed(petBreed);
+    }
 
     }
            

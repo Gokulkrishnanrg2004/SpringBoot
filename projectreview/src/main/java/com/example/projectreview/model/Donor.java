@@ -1,12 +1,24 @@
 package com.example.projectreview.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+// import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Donor {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @OneToOne(mappedBy = "donor",cascade = CascadeType.ALL)
+    // @JoinColumn(name = "details_id")
+    @JsonManagedReference
+    private Details details;
     private String donorName;
     private String donorArea;
     private String petName;
@@ -62,10 +74,18 @@ public class Donor {
     public void setLicense(String license) {
         this.license = license;
     }
+    
+    public Details getDetails() {
+        return details;
+    }
+    public void setDetails(Details details) {
+        this.details = details;
+    }
+    
     public Donor() {
     }
     public Donor(int id, String donorName, String donorArea, String petName, String petBreed, String petAge,
-            String donorProof, String license) {
+            String donorProof, String license,Details details) {
         this.id = id;
         this.donorName = donorName;
         this.donorArea = donorArea;
@@ -74,6 +94,13 @@ public class Donor {
         this.petAge = petAge;
         this.donorProof = donorProof;
         this.license = license;
+        this.details = details;
     }
+    // public Details getDetails() {
+    //     return details;
+    // }
+    // public void setDetails(Details details) {
+    //     this.details = details;
+    // }
     
 }

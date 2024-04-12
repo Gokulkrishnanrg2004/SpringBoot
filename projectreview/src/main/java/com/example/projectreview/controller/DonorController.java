@@ -48,6 +48,12 @@ public class DonorController {
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/api/donor/petBreed/{petBreed}")
+    public ResponseEntity<?>getPetByBreed(@PathVariable("petBreed") String petBreed)
+    {
+            return new ResponseEntity<>(ds.getPetByBreed(petBreed),HttpStatus.OK);
+    }
+
     @DeleteMapping("/api/donor/{donorId}")
     public ResponseEntity<Boolean> delete(@PathVariable("donorId") int id)
     {
